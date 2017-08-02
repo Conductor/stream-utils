@@ -7,14 +7,9 @@ com.conductor.stream.utils
 This repo contains common utilities for dealing with streams. It is intended to be very light weight, and has no external dependencies.
 
 # Usage
-To use these utilities, just add the following maven dependency:
-```
-<dependency>
-    <groupId>com.conductor</groupId>
-    <artifactId>stream-utils</artifactId>
-    <version>POM-VERSION</version>
-</dependency>
-```
+To use these utilities, just snag the latest released jar from [releases](https://github.com/Conductor/stream-utils/releases).
+
+Publishing this library into Maven Central is still in progress.
 
 # Utilities
 For convenience, there are static functions around all of the useful utilities in this repo. Here are the utilities currently supported:
