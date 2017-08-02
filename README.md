@@ -1,8 +1,8 @@
 com.conductor.stream.utils
 ==========================
-![Build Status](https://shields.us-east-1.conductor.sh/jenkins/j/http/jenkins-release.infra.us-east-1.conductor.sh/libraries/stream-utils.svg)
-![Tests](https://shields.us-east-1.conductor.sh/jenkins/s/http/jenkins-release.infra.us-east-1.conductor.sh/libraries/stream-utils.svg)
-![Coverage](https://shields.us-east-1.conductor.sh/jenkins/t/http/jenkins-release.infra.us-east-1.conductor.sh/libraries/stream-utils.svg)
+![Build Status](https://shields.us-east-1.conductor.sh/jenkins/j/http/jenkins-release.infra.us-east-1.conductor.sh/opensource/stream-utils.svg)
+![Tests](https://shields.us-east-1.conductor.sh/jenkins/s/http/jenkins-release.infra.us-east-1.conductor.sh/opensource/stream-utils.svg)
+![Coverage](https://shields.us-east-1.conductor.sh/jenkins/t/http/jenkins-release.infra.us-east-1.conductor.sh/opensource/stream-utils.svg)
 
 This repo contains common utilities for dealing with streams. It is intended to be very light weight, and has no external dependencies.
 
