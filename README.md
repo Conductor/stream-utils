@@ -1,20 +1,15 @@
 com.conductor.stream.utils
 ==========================
-![Build Status](https://shields.us-east-1.conductor.sh/jenkins/j/http/jenkins-release.infra.us-east-1.conductor.sh/libraries/stream-utils.svg)
-![Tests](https://shields.us-east-1.conductor.sh/jenkins/s/http/jenkins-release.infra.us-east-1.conductor.sh/libraries/stream-utils.svg)
-![Coverage](https://shields.us-east-1.conductor.sh/jenkins/t/http/jenkins-release.infra.us-east-1.conductor.sh/libraries/stream-utils.svg)
+![Build Status](https://shields.us-east-1.conductor.sh/jenkins/j/http/jenkins-release.infra.us-east-1.conductor.sh/opensource/stream-utils.svg)
+![Tests](https://shields.us-east-1.conductor.sh/jenkins/s/http/jenkins-release.infra.us-east-1.conductor.sh/opensource/stream-utils.svg)
+![Coverage](https://shields.us-east-1.conductor.sh/jenkins/t/http/jenkins-release.infra.us-east-1.conductor.sh/opensource/stream-utils.svg)
 
 This repo contains common utilities for dealing with streams. It is intended to be very light weight, and has no external dependencies.
 
 # Usage
-To use these utilities, just add the following maven dependency:
-```
-<dependency>
-    <groupId>com.conductor</groupId>
-    <artifactId>stream-utils</artifactId>
-    <version>POM-VERSION</version>
-</dependency>
-```
+To use these utilities, just snag the latest released jar from [releases](https://github.com/Conductor/stream-utils/releases).
+
+Publishing this library into Maven Central is still in progress.
 
 # Utilities
 For convenience, there are static functions around all of the useful utilities in this repo. Here are the utilities currently supported:
