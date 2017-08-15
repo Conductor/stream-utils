@@ -113,3 +113,16 @@ Stream<Integer> joinedStream = OrderedStreamUtils.join(
 );
 assertEquals(joinedStream, Stream.of(2, 4, 6));
 ```
+There is also a builder for convenience.
+```java
+Stream<Integer> joinedStream = OrderedStreamUtils.join(JoinBuilder.builder()
+        .setLeftHandSide(Stream.of(1, 2, 3))
+        .setRightHandSide(Stream.of(1, 2, 3))
+        .setOrdering(Comparator.naturalOrder())
+        .setLeftHandKeyingFunction(Function.identity())
+        .setRightHandKeyingFunction(Function.identity())
+        .setJoinFunction((num1, num2) -> num1 + num2)
+        .setJoinType(JoinType.OUTER)
+);
+assertEquals(joinedStream, Stream.of(2, 4, 6));
+```
