@@ -17,8 +17,8 @@
 package com.conductor.stream.utils;
 
 import com.conductor.stream.utils.buffer.KeyedBufferIterator;
+import com.conductor.stream.utils.join.JoinBuilder;
 import com.conductor.stream.utils.join.JoinType;
-import com.conductor.stream.utils.join.JoiningIterator;
 import com.conductor.stream.utils.merge.SortedMergeIterator;
 
 import java.util.Comparator;
@@ -29,6 +29,8 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
+
+import static com.conductor.stream.utils.join.JoinBuilder.builder;
 
 /**
  * This class is a series of utilities specifically for dealing with
@@ -134,10 +136,34 @@ public final class OrderedStreamUtils {
             final BiFunction<LEFT_VALUE, RIGHT_VALUE, RESULT> joinFunction,
             final JoinType joinType
     ) {
-        final JoiningIterator<KEY, LEFT_VALUE, RIGHT_VALUE, RESULT> iter = new JoiningIterator(leftHandSide, rightHandSide, ordering, leftHandKeyingFunction, rightHandKeyingFunction, joinFunction, joinType);
+        return join(builder()
+                .setLeftHandSide(leftHandSide)
+                .setRightHandSide(rightHandSide)
+                .setOrdering(ordering)
+                .setLeftHandKeyingFunction(leftHandKeyingFunction)
+                .setRightHandKeyingFunction(rightHandKeyingFunction)
+                .setJoinFunction(joinFunction)
+                .setJoinType(joinType)
+        );
+    }
 
-        return StreamSupport.stream(Spliterators.spliteratorUnknownSize(iter, 0), false);
-
+    /**
+     * Returns a stream that is a join of the two provided sorted streams. There are
+     * three join types supported: full inner, full outer, and left. In case of duplicates,
+     * the items will be joined in the order in which they appear.
+     *
+     * The inputted streams must each be sorted according to the key for this to function
+     * properly.
+     *
+     * This accepts the builder for easier construction of joins.
+     *
+     * @param builder the builder containing all the required options.
+     * @return the joined stream.
+     */
+    public static <KEY, LEFT_VALUE, RIGHT_VALUE, RESULT> Stream<RESULT> join(
+            final JoinBuilder<KEY, LEFT_VALUE, RIGHT_VALUE, RESULT> builder
+    ) {
+        return StreamSupport.stream(Spliterators.spliteratorUnknownSize(builder.build(), 0), false);
     }
 
 }
