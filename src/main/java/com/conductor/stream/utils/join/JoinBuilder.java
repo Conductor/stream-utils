@@ -40,37 +40,37 @@ public class JoinBuilder<KEY, LEFT_VALUE, RIGHT_VALUE, RESULT> {
 
     public JoinBuilder() {}
 
-    public JoinBuilder setLeftHandSide(Stream<LEFT_VALUE> leftHandSide) {
+    public JoinBuilder setLeftHandSide(final Stream<LEFT_VALUE> leftHandSide) {
         this.leftHandSide = leftHandSide;
         return this;
     }
 
-    public JoinBuilder setRightHandSide(Stream<RIGHT_VALUE> rightHandSide) {
+    public JoinBuilder setRightHandSide(final Stream<RIGHT_VALUE> rightHandSide) {
         this.rightHandSide = rightHandSide;
         return this;
     }
 
-    public JoinBuilder setOrdering(Comparator<KEY> ordering) {
+    public JoinBuilder setOrdering(final Comparator<KEY> ordering) {
         this.ordering = ordering;
         return this;
     }
 
-    public JoinBuilder setLeftHandKeyingFunction(Function<LEFT_VALUE, KEY> leftHandKeyingFunction) {
+    public JoinBuilder setLeftHandKeyingFunction(final Function<LEFT_VALUE, KEY> leftHandKeyingFunction) {
         this.leftHandKeyingFunction = leftHandKeyingFunction;
         return this;
     }
 
-    public JoinBuilder setRightHandKeyingFunction(Function<RIGHT_VALUE, KEY> rightHandKeyingFunction) {
+    public JoinBuilder setRightHandKeyingFunction(final Function<RIGHT_VALUE, KEY> rightHandKeyingFunction) {
         this.rightHandKeyingFunction = rightHandKeyingFunction;
         return this;
     }
 
-    public JoinBuilder setJoinFunction(BiFunction<LEFT_VALUE, RIGHT_VALUE, RESULT> joinFunction) {
+    public JoinBuilder setJoinFunction(final BiFunction<LEFT_VALUE, RIGHT_VALUE, RESULT> joinFunction) {
         this.joinFunction = joinFunction;
         return this;
     }
 
-    public JoinBuilder setJoinType(JoinType joinType) {
+    public JoinBuilder setJoinType(final JoinType joinType) {
         this.joinType = joinType;
         return this;
     }
