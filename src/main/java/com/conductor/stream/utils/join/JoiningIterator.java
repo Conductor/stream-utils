@@ -160,10 +160,28 @@ public class JoiningIterator<KEY, LEFT_VALUE, RIGHT_VALUE, RESULT> implements It
             final KEY leftHandKey = left == null ? null : leftHandKeyingFunction.apply(left);
             final KEY rightHandKey = right == null ? null : rightHandKeyingFunction.apply(right);
 
+            // so here's the deal. We want to be friendly to null items
+            // that can arise from streams being completed. This has the
+            // potential to throw an exception when computing the ordering.
+            // We're proactive about heading off this issue.
+            final int comparison;
+            if (!leftHasNext) {
+                // treat left side missing the same as we treat as right side
+                // being "smaller"
+                comparison = 1;
+            } else if (!rightHasNext) {
+                // ... and vice versa
+                comparison = -1;
+            } else {
+                // since we know both are non-null, we can compute the ordering
+                // without worrying about throwing an NPE
+                comparison = ordering.compare(leftHandKey, rightHandKey);
+            }
+
             // Depending on the join type, we have different criteria for
             // how we join (and whether we can join). The one thing in
             // common is that if the items are equal, always join them.
-            if (ordering.compare(leftHandKey, rightHandKey) == 0) {
+            if (comparison == 0) {
                 // apply the join function and consume the item.
                 return new AtomicReference<>(joinFunction.apply(leftHandSide.next(), rightHandSide.next()));
             }
@@ -176,7 +194,7 @@ public class JoiningIterator<KEY, LEFT_VALUE, RIGHT_VALUE, RESULT> implements It
             // if the left side item is smaller than the right side item,
             // then roll the left looking for a matching item for the
             // right side.
-            else if (ordering.compare(leftHandKey, rightHandKey) < 0) {
+            else if (comparison < 0) {
                 // we know the left is smaller. If the join type is left
                 // or outer, we want the left item alone
                 if (joinType == JoinType.OUTER || joinType == JoinType.LEFT) {

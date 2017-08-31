@@ -311,7 +311,7 @@ public class JoiningIteratorTest {
         final Iterator<String> iterator = new JoiningIterator<>(
                 stream1,
                 stream2,
-                Comparator.nullsLast(Comparator.naturalOrder()),
+                Comparator.naturalOrder(),
                 KEYING_FUNCTION,
                 KEYING_FUNCTION,
                 joinFunction,
