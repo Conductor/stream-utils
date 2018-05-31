@@ -11,7 +11,7 @@
 
     <artifactId>stream-utils</artifactId>
     <name>${project.artifactId}</name>
-    <version>1.2.1-SNAPSHOT</version>
+    <version>1.2.1</version>
 
     <description>A set of stream utilities for Java 8 Streams</description>
     <url>https://github.com/Conductor/stream-utils</url>
@@ -33,7 +33,7 @@
     <scm>
         <connection>scm:git:git@github.com:Conductor/stream-utils.git</connection>
         <developerConnection>scm:git:git@github.com:Conductor/stream-utils.git</developerConnection>
-        <tag>HEAD</tag>
+        <tag>stream-utils-1.2.1</tag>
     </scm>
 
     <issueManagement>
