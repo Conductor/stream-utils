@@ -32,8 +32,8 @@
     </developers>
 
     <scm>
-        <connection>scm:git:git@github.com:Conductor/com.conductor.stream.utils.git</connection>
-        <developerConnection>scm:git:git@github.com:Conductor/com.conductor.stream.utils.git</developerConnection>
+        <connection>scm:git:git@github.com:Conductor/stream-utils.git</connection>
+        <developerConnection>scm:git:git@github.com:Conductor/stream-utils.git</developerConnection>
         <tag>HEAD</tag>
     </scm>
 
