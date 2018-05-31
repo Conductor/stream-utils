@@ -1,24 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.conductor</groupId>
+    <parent>
+        <groupId>com.conductor</groupId>
+        <artifactId>conductor-oss-pom</artifactId>
+        <version>0.1.0</version>
+    </parent>
+
     <artifactId>stream-utils</artifactId>
-    <version>1.1.2-SNAPSHOT</version>
+    <name>${project.artifactId}</name>
+    <version>1.2.0-SNAPSHOT</version>
 
-    <packaging>jar</packaging>
-
-    <name>Conductor Stream Utils</name>
     <description>A set of stream utilities for Java 8 Streams</description>
-    <url>http://conductor.com</url>
-
-    <licenses>
-        <license>
-            <name>Apache License, Version 2.0</name>
-            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-            <distribution>repo</distribution>
-        </license>
-    </licenses>
+    <url>https://github.com/Conductor/stream-utils</url>
 
     <developers>
         <developer>
@@ -40,44 +37,35 @@
         <tag>HEAD</tag>
     </scm>
 
+    <issueManagement>
+        <system>GitHub</system>
+        <url>https://github.com/Conductor/stream-utils/issues</url>
+    </issueManagement>
+
     <properties>
         <maven.compiler.target>1.8</maven.compiler.target>
         <maven.compiler.source>1.8</maven.compiler.source>
 
-        <!--Dependency versions-->
+        <!--Dependency versions -->
         <jacoco-maven-plugin.version>0.7.9</jacoco-maven-plugin.version>
         <junit.version>4.12</junit.version>
         <mockito.version>1.10.19</mockito.version>
-
     </properties>
 
     <dependencies>
-
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
-
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-all</artifactId>
             <version>${mockito.version}</version>
             <scope>test</scope>
         </dependency>
-
     </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.jacoco</groupId>
-                <artifactId>jacoco-maven-plugin</artifactId>
-                <version>${jacoco-maven-plugin.version}</version>
-            </plugin>
-        </plugins>
-    </build>
 
     <profiles>
         <profile>
@@ -95,6 +83,7 @@
                     <plugin>
                         <groupId>org.jacoco</groupId>
                         <artifactId>jacoco-maven-plugin</artifactId>
+                        <version>${jacoco-maven-plugin.version}</version>
                         <executions>
                             <execution>
                                 <id>default-prepare-agent</id>
