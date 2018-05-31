@@ -47,7 +47,7 @@ public class StreamUtilsTest {
     /**
      * This test is proves that the streamy way works.
      */
-    @Test(timeout = 500)
+    @Test(timeout = 1000)
     public void testBufferStreamy() {
         // Create a mock supplier, that way we know how many times get was called
         Supplier<Integer> supplier = Mockito.mock(Supplier.class);
