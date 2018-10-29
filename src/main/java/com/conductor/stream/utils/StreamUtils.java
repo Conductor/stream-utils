@@ -40,6 +40,11 @@ public final class StreamUtils {
      * Java 8 streams don't support streaming groupings, just materialized grouping.
      * This chunks a stream into lists the provided size.
      *
+     * Note - when you use this operator, you need to be aware that you are relinquishing
+     * ALL control of the base stream. Do NOT try to reuse the inputted stream. Do NOT
+     * try to close the underlying stream. All interactions must now be done with the
+     * stream you get in return.
+     *
      * @param stream stream to group.
      * @param size size of the lists to emit.
      * @param <TYPE> the type of items in the stream.
@@ -50,7 +55,10 @@ public final class StreamUtils {
 
         final Iterator<List<TYPE>> iter = new SizedBufferIterator(iterator, size);
 
-        return StreamSupport.stream(Spliterators.spliteratorUnknownSize(iter, 0), false);
+        return StreamSupport.stream(Spliterators.spliteratorUnknownSize(iter, 0), false)
+                // Whenever the buffered stream is closed, we need to close the
+                // underlying stream.
+                .onClose(stream::close);
     }
 
     // Just create one BiConsumer that is a no combiner, and reuse it.
@@ -77,6 +85,11 @@ public final class StreamUtils {
      * that the replacement stream is only evaluated if the given stream is
      * empty.
      *
+     * Note - when you use this operator, you need to be aware that you are relinquishing
+     * ALL control of the base stream. Do NOT try to reuse the inputted stream. Do NOT
+     * try to close the underlying stream. All interactions must now be done with the
+     * stream you get in return.
+     *
      * @param stream the original stream.
      * @param replacementStreamSupplier the supplier that provides the alternate stream.
      * @param <TYPE> the type of items in the stream.
@@ -85,7 +98,10 @@ public final class StreamUtils {
     public static <TYPE> Stream<TYPE> switchIfEmpty(
             Stream<TYPE> stream, Supplier<Stream<TYPE>> replacementStreamSupplier) {
 
-        return StreamSupport.stream(new SwitchIfEmptySpliterator<>(stream, replacementStreamSupplier), false);
+        return StreamSupport.stream(new SwitchIfEmptySpliterator<>(stream, replacementStreamSupplier), false)
+                // Whenever the original stream is closed, we need to close the
+                // underlying stream.
+                .onClose(stream::close);
     }
 
 }
