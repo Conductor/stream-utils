@@ -45,9 +45,27 @@ public class JoinBuilder<KEY, LEFT_VALUE, RIGHT_VALUE, RESULT> {
         return this;
     }
 
+    /**
+     * Getter so that we can appropriately clean up resources.
+     *
+     * @return the base stream on the left side
+     */
+    public Stream<LEFT_VALUE> getLeftHandSide() {
+        return leftHandSide;
+    }
+
     public JoinBuilder setRightHandSide(final Stream<RIGHT_VALUE> rightHandSide) {
         this.rightHandSide = rightHandSide;
         return this;
+    }
+
+    /**
+     * Getter so that we can appropriately clean up resources.
+     *
+     * @return the base stream on the right side
+     */
+    public Stream<RIGHT_VALUE> getRightHandSide() {
+        return rightHandSide;
     }
 
     public JoinBuilder setOrdering(final Comparator<KEY> ordering) {

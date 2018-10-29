@@ -19,6 +19,7 @@ package com.conductor.stream.utils;
 import com.conductor.stream.utils.buffer.KeyedBufferIterator;
 import com.conductor.stream.utils.join.JoinBuilder;
 import com.conductor.stream.utils.join.JoinType;
+import com.conductor.stream.utils.join.JoiningIterator;
 import com.conductor.stream.utils.merge.SortedMergeIterator;
 
 import java.util.Comparator;
@@ -49,6 +50,11 @@ public final class OrderedStreamUtils {
      *
      * The stream must be sorted by the key for this to function properly.
      *
+     * Note - when you use this operator, you need to be aware that you are relinquishing
+     * ALL control of the base stream. Do NOT try to reuse the inputted stream. Do NOT
+     * try to close the underlying stream. All interactions must now be done with the
+     * stream you get in return.
+     *
      * @param stream stream to group.
      * @param keyingFunction function to generate the key to be grouped by.
      * @return grouped stream.
@@ -58,12 +64,20 @@ public final class OrderedStreamUtils {
 
         final Iterator<List<TYPE>> iter = new KeyedBufferIterator<>(iterator, keyingFunction);
 
-        return StreamSupport.stream(Spliterators.spliteratorUnknownSize(iter, 0), false);
+        return StreamSupport.stream(Spliterators.spliteratorUnknownSize(iter, 0), false)
+                // Whenever the grouped stream is closed, we need to close the
+                // underlying stream.
+                .onClose(stream::close);
     }
 
     /**
      * This is a convenience wrapper around groupBy that also takes in an aggregation
      * function that turns the collection of items into an instance of a type.
+     *
+     * Note - when you use this operator, you need to be aware that you are relinquishing
+     * ALL control of the base stream. Do NOT try to reuse the inputted stream. Do NOT
+     * try to close the underlying stream. All interactions must now be done with the
+     * stream you get in return.
      *
      * @param stream stream to group.
      * @param keyingFunction function to generate the key to be grouped by.
@@ -83,6 +97,11 @@ public final class OrderedStreamUtils {
      * already each individually sorted by the natural ordering of the items. This just
      * zips them together.
      *
+     * Note - when you use this operator, you need to be aware that you are relinquishing
+     * ALL control of the base stream. Do NOT try to reuse the inputted stream. Do NOT
+     * try to close the underlying stream. All interactions must now be done with the
+     * stream you get in return.
+     *
      * @param streams the streams to merge together.
      * @return the stream of all the items, in order.
      */
@@ -98,6 +117,11 @@ public final class OrderedStreamUtils {
      * already each individually sorted by the provided comparator. This just zips
      * them together.
      *
+     * Note - when you use this operator, you need to be aware that you are relinquishing
+     * ALL control of the base stream. Do NOT try to reuse the inputted stream. Do NOT
+     * try to close the underlying stream. All interactions must now be done with the
+     * stream you get in return.
+     *
      * @param streams the streams to merge together.
      * @param comparator the comparator to use to merge the streams.
      * @return the stream of all the items, in order.
@@ -105,7 +129,10 @@ public final class OrderedStreamUtils {
     public static <TYPE> Stream<TYPE> sortedMerge(List<Stream<TYPE>> streams, Comparator<TYPE> comparator) {
         final Iterator<TYPE> iter = new SortedMergeIterator(streams, comparator);
 
-        return StreamSupport.stream(Spliterators.spliteratorUnknownSize(iter, 0), false);
+        return StreamSupport.stream(Spliterators.spliteratorUnknownSize(iter, 0), false)
+                // Whenever the merged stream is closed, we need to close the
+                // underlying streams.
+                .onClose(() -> streams.forEach(Stream::close));
     }
 
     /**
@@ -115,6 +142,11 @@ public final class OrderedStreamUtils {
      *
      * The inputted streams must each be sorted according to the key for this to function
      * properly.
+     *
+     * Note - when you use this operator, you need to be aware that you are relinquishing
+     * ALL control of the base stream. Do NOT try to reuse the inputted stream. Do NOT
+     * try to close the underlying stream. All interactions must now be done with the
+     * stream you get in return.
      *
      * @param leftHandSide the left side stream to join.
      * @param rightHandSide the right side stream to join.
@@ -157,13 +189,24 @@ public final class OrderedStreamUtils {
      *
      * This accepts the builder for easier construction of joins.
      *
+     * Note - when you use this operator, you need to be aware that you are relinquishing
+     * ALL control of the base stream. Do NOT try to reuse the inputted stream. Do NOT
+     * try to close the underlying stream. All interactions must now be done with the
+     * stream you get in return.
+     *
      * @param builder the builder containing all the required options.
      * @return the joined stream.
      */
     public static <KEY, LEFT_VALUE, RIGHT_VALUE, RESULT> Stream<RESULT> join(
             final JoinBuilder<KEY, LEFT_VALUE, RIGHT_VALUE, RESULT> builder
     ) {
-        return StreamSupport.stream(Spliterators.spliteratorUnknownSize(builder.build(), 0), false);
+        return StreamSupport.stream(Spliterators.spliteratorUnknownSize(builder.build(), 0), false)
+                // Whenever the joined stream is closed, we need to close the
+                // underlying streams.
+                .onClose(() -> {
+                    builder.getLeftHandSide().close();
+                    builder.getRightHandSide().close();
+                });
     }
 
 }
