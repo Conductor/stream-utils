@@ -63,6 +63,9 @@ public class SwitchIfEmptySpliterator<TYPE> implements Spliterator<TYPE> {
         if (!seen && !advanced) {
             // replace the stream with the replacement.
             streamSpliterator = alternateStreamSupplier.get().spliterator();
+            // since we now returned the secondary stream, set seen
+            // to true here as well
+            seen = true;
             // now we use the replacement stream's tryAdvance call
             return streamSpliterator.tryAdvance(action);
         }
