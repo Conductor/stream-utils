@@ -1,5 +1,19 @@
 # `stream-utils` Releases
 
+## v1.3.0 - October 29, 2018 [maven](http://repo2.maven.org/maven2/com/conductor/stream-utils/1.3.0/) 
+
+### Fix some issues in the code
+This release fixes some issues with stream utils.
+
+### Pull Requests Included
+- [Pull 14](https://github.com/Conductor/stream-utils/pull/14) - Make sure exceptions are thrown at the appropriate call. Closes [issue #10](https://github.com/Conductor/stream-utils/issues/10)
+- [Pull 15](https://github.com/Conductor/stream-utils/pull/15) - Make sure `switchIfEmpty` works when the alternate stream has a length of 1. Closes [issue #9](https://github.com/Conductor/stream-utils/issues/9)
+- [Pull 16](https://github.com/Conductor/stream-utils/pull/16) - Make sure all our methods that return different streams close the base stream appropriately. Closes [issue #8](https://github.com/Conductor/stream-utils/issues/8)
+
+### Compatibility
+This change is fully backwards compatible (unless you were relying on any of these bugs).
+
+
 ## v1.2.1 - May 31, 2018 [maven](http://repo2.maven.org/maven2/com/conductor/stream-utils/1.2.1/) 
 
 ### Update documentation
