@@ -21,6 +21,7 @@ import org.mockito.Mockito;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.Supplier;
@@ -83,6 +84,12 @@ public class StreamUtilsTest {
     public void testSwitchIfEmpty() {
         final Stream<Integer> integerStream = StreamUtils.switchIfEmpty(Stream.empty(), () -> Stream.of(1, 2, 3));
         assertEquals(Arrays.asList(1, 2, 3), integerStream.collect(Collectors.toList()));
+    }
+
+    @Test
+    public void testSwitchIfEmpty_endlessLoop() {
+        final Stream<Integer> integerStream = StreamUtils.switchIfEmpty(Stream.empty(), () -> Stream.of(1));
+        assertEquals(Collections.singletonList(1), integerStream.collect(Collectors.toList()));
     }
 
     @Test

@@ -111,6 +111,33 @@ public class PeekingIteratorTest {
     }
 
     @Test
+    public void doesNotThrowExceptionUntilNextCall_whenHasNextReturnsTrueButNextThrows() {
+        // this test validates that if attempting to retrieve an item throws
+        // an exception, that exception is not thrown until the appropriate
+        // next/peek call happens.
+        // in this instance, the delegate is actually returning "true" when
+        // asked if it has next, and then calling next throws an exception.
+        // we want to preserve that behavior
+        when(mockIterator.hasNext()).thenReturn(true);
+        when(mockIterator.next()).thenThrow(new RuntimeException());
+        assertTrue(peekingIterator.hasNext());
+        boolean caught = false;
+        try {
+            peekingIterator.peek();
+        } catch(Exception e) {
+            caught = true;
+        }
+        assertTrue(caught);
+        caught = false;
+        try {
+            peekingIterator.next();
+        } catch(Exception e) {
+            caught = true;
+        }
+        assertTrue(caught);
+    }
+
+    @Test
     public void canCallPeekOrNextWithoutHasNextAsLongAsThereAreItemsLeft() {
         when(mockIterator.hasNext()).thenReturn(true);
         when(mockIterator.next()).thenReturn(1);
