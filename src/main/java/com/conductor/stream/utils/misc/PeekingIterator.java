@@ -62,8 +62,9 @@ public class PeekingIterator<TYPE> implements Iterator<TYPE> {
             // Cycle the next item.
             this.nextObject = getNextObject();
         }
-        // as long as we currently hold on to an item, we coo'
-        return this.nextObject != null;
+        // as long as we currently hold on to an item, or
+        // we hold on to an exception, we coo'
+        return this.nextObject != null || this.caughtException != null;
     }
 
     /**
