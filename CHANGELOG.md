@@ -1,5 +1,8 @@
 # `stream-utils` Releases
 
+## v1.3.1 - November 2, 2018 [maven](http://repo2.maven.org/maven2/com/conductor/stream-utils/1.3.1/)
+This release fixes issues with types that would otherwise trigger unchecked assignment warnings
+
 ## v1.3.0 - October 29, 2018 [maven](http://repo2.maven.org/maven2/com/conductor/stream-utils/1.3.0/) 
 
 ### Fix some issues in the code
