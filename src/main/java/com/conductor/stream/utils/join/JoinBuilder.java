@@ -40,7 +40,7 @@ public class JoinBuilder<KEY, LEFT_VALUE, RIGHT_VALUE, RESULT> {
 
     public JoinBuilder() {}
 
-    public JoinBuilder setLeftHandSide(final Stream<LEFT_VALUE> leftHandSide) {
+    public JoinBuilder<KEY, LEFT_VALUE, RIGHT_VALUE, RESULT> setLeftHandSide(final Stream<LEFT_VALUE> leftHandSide) {
         this.leftHandSide = leftHandSide;
         return this;
     }
@@ -54,7 +54,7 @@ public class JoinBuilder<KEY, LEFT_VALUE, RIGHT_VALUE, RESULT> {
         return leftHandSide;
     }
 
-    public JoinBuilder setRightHandSide(final Stream<RIGHT_VALUE> rightHandSide) {
+    public JoinBuilder<KEY, LEFT_VALUE, RIGHT_VALUE, RESULT> setRightHandSide(final Stream<RIGHT_VALUE> rightHandSide) {
         this.rightHandSide = rightHandSide;
         return this;
     }
@@ -68,27 +68,27 @@ public class JoinBuilder<KEY, LEFT_VALUE, RIGHT_VALUE, RESULT> {
         return rightHandSide;
     }
 
-    public JoinBuilder setOrdering(final Comparator<KEY> ordering) {
+    public JoinBuilder<KEY, LEFT_VALUE, RIGHT_VALUE, RESULT> setOrdering(final Comparator<KEY> ordering) {
         this.ordering = ordering;
         return this;
     }
 
-    public JoinBuilder setLeftHandKeyingFunction(final Function<LEFT_VALUE, KEY> leftHandKeyingFunction) {
+    public JoinBuilder<KEY, LEFT_VALUE, RIGHT_VALUE, RESULT> setLeftHandKeyingFunction(final Function<LEFT_VALUE, KEY> leftHandKeyingFunction) {
         this.leftHandKeyingFunction = leftHandKeyingFunction;
         return this;
     }
 
-    public JoinBuilder setRightHandKeyingFunction(final Function<RIGHT_VALUE, KEY> rightHandKeyingFunction) {
+    public JoinBuilder<KEY, LEFT_VALUE, RIGHT_VALUE, RESULT> setRightHandKeyingFunction(final Function<RIGHT_VALUE, KEY> rightHandKeyingFunction) {
         this.rightHandKeyingFunction = rightHandKeyingFunction;
         return this;
     }
 
-    public JoinBuilder setJoinFunction(final BiFunction<LEFT_VALUE, RIGHT_VALUE, RESULT> joinFunction) {
+    public JoinBuilder<KEY, LEFT_VALUE, RIGHT_VALUE, RESULT> setJoinFunction(final BiFunction<LEFT_VALUE, RIGHT_VALUE, RESULT> joinFunction) {
         this.joinFunction = joinFunction;
         return this;
     }
 
-    public JoinBuilder setJoinType(final JoinType joinType) {
+    public JoinBuilder<KEY, LEFT_VALUE, RIGHT_VALUE, RESULT> setJoinType(final JoinType joinType) {
         this.joinType = joinType;
         return this;
     }
@@ -102,7 +102,7 @@ public class JoinBuilder<KEY, LEFT_VALUE, RIGHT_VALUE, RESULT> {
         Objects.requireNonNull(joinFunction, "Join function must not be null.");
         Objects.requireNonNull(joinType, "Join type must not be null.");
 
-        return new JoiningIterator(
+        return new JoiningIterator<>(
                 leftHandSide,
                 rightHandSide,
                 ordering,
@@ -118,7 +118,7 @@ public class JoinBuilder<KEY, LEFT_VALUE, RIGHT_VALUE, RESULT> {
      *
      * @return a builder.
      */
-    public static JoinBuilder builder() {
-        return new JoinBuilder();
+    public static <KEY, LEFT_VALUE, RIGHT_VALUE, RESULT> JoinBuilder<KEY, LEFT_VALUE, RIGHT_VALUE, RESULT> builder() {
+        return new JoinBuilder<>();
     }
 }
