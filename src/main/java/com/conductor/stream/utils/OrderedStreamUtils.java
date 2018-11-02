@@ -16,12 +16,6 @@
 
 package com.conductor.stream.utils;
 
-import com.conductor.stream.utils.buffer.KeyedBufferIterator;
-import com.conductor.stream.utils.join.JoinBuilder;
-import com.conductor.stream.utils.join.JoinType;
-import com.conductor.stream.utils.join.JoiningIterator;
-import com.conductor.stream.utils.merge.SortedMergeIterator;
-
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
@@ -31,7 +25,10 @@ import java.util.function.Function;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
-import static com.conductor.stream.utils.join.JoinBuilder.builder;
+import com.conductor.stream.utils.buffer.KeyedBufferIterator;
+import com.conductor.stream.utils.join.JoinBuilder;
+import com.conductor.stream.utils.join.JoinType;
+import com.conductor.stream.utils.merge.SortedMergeIterator;
 
 /**
  * This class is a series of utilities specifically for dealing with
@@ -105,6 +102,7 @@ public final class OrderedStreamUtils {
      * @param streams the streams to merge together.
      * @return the stream of all the items, in order.
      */
+    @SuppressWarnings("unchecked")
     public static <TYPE extends Comparable> Stream<TYPE> sortedMerge(List<Stream<TYPE>> streams) {
         return sortedMerge(streams, Comparator.naturalOrder());
     }
@@ -127,7 +125,7 @@ public final class OrderedStreamUtils {
      * @return the stream of all the items, in order.
      */
     public static <TYPE> Stream<TYPE> sortedMerge(List<Stream<TYPE>> streams, Comparator<TYPE> comparator) {
-        final Iterator<TYPE> iter = new SortedMergeIterator(streams, comparator);
+        final Iterator<TYPE> iter = new SortedMergeIterator<>(streams, comparator);
 
         return StreamSupport.stream(Spliterators.spliteratorUnknownSize(iter, 0), false)
                 // Whenever the merged stream is closed, we need to close the
@@ -168,7 +166,7 @@ public final class OrderedStreamUtils {
             final BiFunction<LEFT_VALUE, RIGHT_VALUE, RESULT> joinFunction,
             final JoinType joinType
     ) {
-        return join(builder()
+        return join(JoinBuilder.<KEY, LEFT_VALUE, RIGHT_VALUE, RESULT>builder()
                 .setLeftHandSide(leftHandSide)
                 .setRightHandSide(rightHandSide)
                 .setOrdering(ordering)
